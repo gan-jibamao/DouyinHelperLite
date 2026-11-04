@@ -97,7 +97,7 @@
     NSDictionary *it = self.items[indexPath.row];
     cell.textLabel.text = it[@"name"];
     cell.textLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightMedium];
-    cell.textLabel.lineBreakMode = NSLineBreakByMiddleTruncation;
+    cell.textLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
 
     double mb = [it[@"size"] unsignedLongLongValue] / 1024.0 / 1024.0;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ · %.1f MB",
