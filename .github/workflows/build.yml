@@ -29,6 +29,13 @@ jobs:
           ls ~/theos/sdks 2>/dev/null || echo "no sdks dir"
           xcrun --sdk iphoneos --show-sdk-path || true
 
+      - name: Install ldid
+        run: brew install ldid || (curl -fsSL https://github.com/ProcursusTeam/ldid/releases/latest/download/ldid_macosx_arm64 -o /usr/local/bin/ldid && chmod +x /usr/local/bin/ldid)
+        continue-on-error: true
+
+      - name: Verify ldid
+        run: which ldid && ldid -h 2>&1 | head -3 || echo "ldid still missing"
+
       - name: Build package
         env:
           THEOS: /Users/runner/theos
