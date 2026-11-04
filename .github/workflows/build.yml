@@ -1,0 +1,48 @@
+name: Build DouyinHelperLite
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Theos
+        uses: actions/cache@v4
+        with:
+          path: ~/theos
+          key: theos-full-v2
+
+      - name: Install Theos
+        run: |
+          if [ ! -f ~/theos/bin/update-theos ] || [ ! -d ~/theos/vendor/include ]; then
+            rm -rf ~/theos
+            bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
+          fi
+
+      - name: Show toolchain
+        run: |
+          ls ~/theos/sdks 2>/dev/null || echo "no sdks dir"
+          xcrun --sdk iphoneos --show-sdk-path || true
+
+      - name: Build package
+        env:
+          THEOS: /Users/runner/theos
+        run: |
+          make clean || true
+          make package FINAL=1 2>&1 | tee build.log
+          echo "--- artifacts ---"
+          ls -la packages/ || true
+
+      - name: Upload deb
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: douyinhelper-lite
+          path: |
+            packages/*.deb
+            build.log
