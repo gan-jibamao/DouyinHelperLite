@@ -2,6 +2,11 @@ TARGET := iphone:clang:latest:14.0
 ARCHS = arm64 arm64e
 INSTALL_TARGET_PROCESSING = YES
 
+# rootless 布局：/var/jb/Library/MobileSubstrate/...
+# （iOS 15+ 的 Dopamine/palera1n 都是 rootless，rootful 已基本淘汰）
+THEOS_PACKAGE_SCHEME = rootless
+DEBUG = 0
+
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = DouyinHelperLite

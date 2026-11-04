@@ -41,7 +41,7 @@ jobs:
           THEOS: /Users/runner/theos
         run: |
           make clean || true
-          make package FINAL=1 2>&1 | tee build.log
+          make package FINAL=1 DEBUG=0 2>&1 | tee build.log
           echo "--- artifacts ---"
           ls -la packages/ || true
 
