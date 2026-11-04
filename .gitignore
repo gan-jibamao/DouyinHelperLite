@@ -3,3 +3,5 @@ packages/
 *.deb
 build.log
 .DS_Store
+Tests/flvtest
+Tests/resolvetest
