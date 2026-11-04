@@ -283,6 +283,19 @@ static void DHLInstallFloatingButton(void) {
 // 【一】进入直播间时抓 roomID
 // ============================================================
 
+// Logos 只生成 @class 前置声明，带返回值的方法体走不了 forward declaration。
+// 这里自己补最小接口声明，让 hook 体内的消息发送能通过类型检查。
+@interface AWELiveNewPreStreamViewController : UIViewController
+@end
+
+@interface IESLiveAudienceViewController : UIViewController
+@end
+
+@interface AWEDynamicPatchModel : NSObject
+- (void)setRawData:(NSData *)data;
+- (void)setSourceRawData:(NSData *)data;
+@end
+
 %hook AWELiveNewPreStreamViewController
 
 - (void)viewDidLoad {
